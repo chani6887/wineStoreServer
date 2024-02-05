@@ -25,10 +25,35 @@ export const orderValidator = (orderToValidate) => {
         toDate: Joi.date(),
         address: Joi.string(),
         orderCode: Joi.string(),
-        product: Joi.string(),
-        isCare: boolean()
-
+        product: Joi.array().items(Joi.object({
+            qty: Joi.number(),
+            productCode: Joi.string(),
+            name: Joi.string()
+        })),
+        isCare: Joi.boolean()
     });
     return orderJoi.validate(orderToValidate);
 }
+
+
+// {
+//     "orderDate": "2022-01-30",
+//     "toDate": "2022-02-05",
+//     "address": "123 Main St, City",
+//     "orderCode": "ABC123",
+//     "product": [
+//       {
+//         "qty": 1,
+//         "productCode": "P001",
+//         "name": "Product 1"
+//       },
+//       {
+//         "qty": 2,
+//         "productCode": "P002",
+//         "name": "Product 2"
+//       }
+//     ],
+//     "isCare": true
+//   }
+
 

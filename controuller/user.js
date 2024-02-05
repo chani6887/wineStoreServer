@@ -1,5 +1,5 @@
 
-import { User, userValidator } from '../modul/user.js';
+import { User, userValidator ,userValidator2} from '../modul/user.js';
 import bcrypt from "bcryptjs";
 import { generateToken } from '../config/jwt.js'
 
@@ -8,7 +8,7 @@ export const addUser = async (req, res) => {
     // let userName=req.body.userName
     let userValidat = userValidator(req.body)
     if (userValidat.error)
-        return res.status(400).send("אתה נופל על הכנסת פרטי משתמש לא תקיניים" + userValidat.error[0]);
+        return res.status(400).send("אתה נופל על הכנסת פרטי משתמש לא תקיניים " + userValidat.message);
 
 
 
@@ -29,17 +29,17 @@ export const addUser = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-    let { userName, email } = req.params
-    let userValidat = userValidator(req.params)
+    let { userName, email } = req.body
+    let userValidat = userValidator2(req.body)
     if (userValidat.error)
-        return res.status(400).send(userValidat.error[0])
+        return res.status(400).send(userValidat.error.message)
 
     try {
-        let user = await User.findOne({ userName, email })
+        let user = await User.findOne({ userName ,email})
         if (!user)
             return res.status(404).send("לא קיים משתמש עם כזה קוד")
-        let token = generateToken(newUser)
-        res.json(user + token)
+        let token = generateToken(user)
+        res.json({userName ,email, token})
 
 
     }

@@ -8,7 +8,7 @@ export const auth = (req, res, next) => {
 
     try {
 
-        req.user = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = jwt.verify(token, process.env.JWT_SECREAT);
         next();
 
     }
@@ -26,7 +26,7 @@ export const authAdmin = (req, res, next) => {
 
     try {
 
-        let user = jwt.verify(token, process.env.JWT_SECRET);
+        let user = jwt.verify(token, process.env.JWT_SECREAT);
         if (user.roles == "ADMIN") {
             req.user = user;
             next();
