@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 
 export const connectToDB = () => {
-    const mongoURI = process.env.DB_CONNECTION || "mongodb+srv://chsh6887:TI7Cyfyw1D6DMRBJ@cluster0.ajdckh6.mongodb.net/";
+    const mongoURI = process.env.DB_CONNECTION;
     mongoose.connect(mongoURI)
         .then((suc) => { console.log("mongo db connected sucessfully!!!", suc.connection.host) })
         .catch(err => {
