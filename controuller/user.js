@@ -21,7 +21,8 @@ export const addUser = async (req, res) => {
         // let newUser = await User.create({ userName,password:hashedPassword, roles })
         let newUser = await User.create({ userName,email,password:hashedPassword, roles })
         let token = generateToken(newUser);
-        return res.json({newUser , token});
+         newUser = await User.create({ userName,email,password:hashedPassword, roles,token })
+        return res.json({newUser});
     }
     catch (error) {
         return res.status(401).send("error  "+error.message);
