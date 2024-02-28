@@ -39,7 +39,7 @@ export const login = async (req, res) => {
         if (!user)
             return res.status(404).send("לא קיים משתמש עם כזה קוד")
         let token = generateToken(user)
-        res.json({userName ,email, token})
+        res.json({_id,userName ,email,roles, token})
 
 
     }
