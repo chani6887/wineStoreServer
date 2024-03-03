@@ -20,9 +20,9 @@ export const addUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         // let newUser = await User.create({ userName,password:hashedPassword, roles })
         let newUser = await User.create({ userName,email,password:hashedPassword, roles })
-         let { userName,email,password:hashedPassword, roles}=newUser
+         let {_id, userName:u,email:e, roles}=newUser
         let token = generateToken(newUser);
-            res.json({ _id, userName: u, email: e, role, signUpDate, token })
+            res.json({ _id, userName: u, email: e, roles, signUpDate, token })
     }
     catch (error) {
         return res.status(401).send("error  "+error.message);
