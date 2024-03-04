@@ -106,7 +106,7 @@ export const getAllwines = async (req, res) => {
             filter.name = search;
         }
 
-         allProducts = await Product.find(filter)
+         allProducts = await Wine.find(filter)
             .skip((page-1)*perPage)
             .limit(perPage);
            
@@ -119,7 +119,7 @@ export const getAllwines = async (req, res) => {
 
 export const getNumOfPages = async (req, res) => {
     try {
-        let allProductsCount = await Product.countDocuments();
+        let allProductsCount = await Wine.countDocuments();
         let perPage = parseInt(req.query.perPage) || 12;
         console.log("Total number of products: ", allProductsCount);
         console.log("Products per page: ", perPage);
