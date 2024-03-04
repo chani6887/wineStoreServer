@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from '../config/jwt.js'
 
 export const addUser = async (req, res) => {
-    let { userName, email, password, roles } = req.body;
+    let { userName, email, password } = req.body;
     // let userName=req.body.userName
     let userValidat = userValidator(req.body)
     if (userValidat.error)
@@ -19,7 +19,7 @@ export const addUser = async (req, res) => {
             return res.stutos(404).send("כבר קיים משתמש בשם וסיסמא אלו")
         const hashedPassword = await bcrypt.hash(password, 10);
         // let newUser = await User.create({ userName,password:hashedPassword, roles })
-        let newUser = await User.create({ userName,email,password:hashedPassword, roles })
+        let newUser = await User.create({ userName,email,password:hashedPassword })
          let {_id, userName:u,email:e, roles}=newUser
         let token = generateToken(newUser);
             res.json({ _id, userName: u, email: e, roles, signUpDate, token })
