@@ -1,24 +1,24 @@
 import { Wine, wineValidator } from "../modul/wine.js";
 import mongoose from "mongoose";
 
-export const  getAllwines= async(req,res)=> {
+// export const  getAllwines= async(req,res)=> {
 
-    let { search, type} = req.query;
-    try {
-        let allwines;
-        let serachObject = {};
-        if (search)
-            serachObject.name = new RegExp(search, "i");
-        if (type)
-            serachObject.type = type
-        allwines = await Wine.find(serachObject)
+//     let { search, type} = req.query;
+//     try {
+//         let allwines;
+//         let serachObject = {};
+//         if (search)
+//             serachObject.name = new RegExp(search, "i");
+//         if (type)
+//             serachObject.type = type
+//         allwines = await Wine.find(serachObject)
         
-        res.json(allwines)
-    }
-    catch (err) {
-        res.status(400).send("לא ניתן לקבל את כל היינות" + err.message)
-    }
-}
+//         res.json(allwines)
+//     }
+//     catch (err) {
+//         res.status(400).send("לא ניתן לקבל את כל היינות" + err.message)
+//     }
+// }
 
 //לך המשועממת ניתן להוסיף WINEBTWEEN
 export const getwineById = async (req, res) => {
@@ -96,5 +96,41 @@ export const updatewine = async (req, res) => {
     }
 
 
+}
+export const getAllwines = async (req, res) => {
+    const { page , perPage , search } = req.query;
+    try {
+        let allProducts;
+        const filter = {};
+        if (search) {
+            filter.name = search;
+        }
+
+         allProducts = await Product.find(filter)
+            .skip((page-1)*perPage)
+            .limit(perPage);
+           
+
+        res.json(allProducts);
+    } catch (err) {
+        res.status(500).send("Unable to retrieve the products");
+    }
+}
+
+export const getNumOfPages = async (req, res) => {
+    try {
+        let allProductsCount = await Product.countDocuments();
+        let perPage = parseInt(req.query.perPage) || 12;
+        console.log("Total number of products: ", allProductsCount);
+        console.log("Products per page: ", perPage);
+        
+        let numPages = Math.ceil(allProductsCount / perPage);
+        console.log("Number of pages: ", numPages);
+
+        return res.json({ numPages });
+    } catch (err) {
+        console.error("An error occurred: ", err);
+        return res.status(400).send("An error occurred: " + err);
+    }
 }
 
