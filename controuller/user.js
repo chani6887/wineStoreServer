@@ -22,7 +22,7 @@ export const addUser = async (req, res) => {
         let newUser = await User.create({ userName,email,password:hashedPassword })
          let {_id, userName:u,email:e, roles}=newUser
         let token = generateToken(newUser);
-            res.json({ _id, userName: u, email: e, roles, signUpDate, token })
+            res.json({ _id, userName: u, email: e, roles, token })
     }
     catch (error) {
         return res.status(401).send("error  "+error.message);
