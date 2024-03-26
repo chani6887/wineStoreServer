@@ -13,14 +13,14 @@ export const addUser = async (req, res) => {
 
 
     try {
-      let user = await User.find({ userName,email })
+      // let user = await User.find({ userName,email })
         // if (user.length > 0)
         //     return res.status(404).send("כבר קיים משתמש בשם וסיסמא אלו")
         const hashedPassword = await bcrypt.hash(password, 10);
         // let newUser = await User.create({ userName,password:hashedPassword,email  })
-        let newUser = new User({ userName,password:hashedPassword,email,roles:USER })
+        let newUser = new User({ userName,password:hashedPassword,email})
          await newUser.save();
-        let { _id, userName: u, email: e, roles} = newUser
+        let { _id, userName: u, roles, email: e} = newUser
          consol.log("4");
         let token = generateToken(newUser);
          res.json({ _id, userName: u, email: e, roles, token });
